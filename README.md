@@ -23,6 +23,8 @@ npm install karma-sauce-launcher --save-dev
 
 This launcher is typically used in CI to run your unit tests across many browsers and platforms on Sauce Labs. However, you can also use it locally to debug tests in browsers not available on your machine. It is expected that you are already familiar with Karma when configuring this launcher, so if you are new to Karma, head over to the [Karma website](http://karma-runner.github.io/).
 
+The [Sauce Labs platform configurator](https://wiki.saucelabs.com/display/DOCS/Platform+Configurator/#/) can help to find the correct configuration for your desired test platform. 
+
 ### Adding karma-sauce-launcher to an existing Karma config
 
 To configure this launcher, you need to add two properties to your top-level Karma config, `sauceLabs` and `customLaunchers`, set the `browsers` array to use Sauce Labs browsers, and add the `sauceLabs` reporter.
@@ -56,6 +58,14 @@ module.exports = function(config) {
       browserName: 'internet explorer',
       platform: 'Windows 8.1',
       version: '11'
+    },
+    sl_android: {
+      base: 'SauceLabs',
+      browserName: 'Browser',
+      platform: 'Android',
+      version: '4.4',
+      deviceName: 'Samsung Galaxy S3 Emulator',
+      deviceOrientation: 'portrait'
     }
   }
 
@@ -94,6 +104,11 @@ Default: `process.env.SAUCE_ACCESS_KEY`
 
 Your Sauce Labs access key which you will see on your [account page](https://saucelabs.com/account).
 
+### proxy
+Type: `String`
+
+Proxy for connecting to Sauce REST API, which is used to communicate job updates of pass/fail.
+
 ### startConnect
 Type: `Boolean`
 Default: `true`
@@ -112,6 +127,19 @@ Default:
 ```
 
 Options to send to Sauce Connect. Check [here](https://github.com/bermi/sauce-connect-launcher#advanced-usage) for all available options.
+
+### connectLocationForSERelay
+Type: `String`
+default: `ondemand.saucelabs.com`
+
+If set, will attempt to connect to the specified host as a Selenium relay.  This is intended to send Selenium commands through a Sauce Connect tunnel.
+
+### connectPortForSERelay
+Type: `Integer`
+Default: 80
+
+If set, will change the host used to connect to the Selenium server. This is intended to send Selenium commands through a Sauce Connect tunnel.
+
 
 ### build
 Type: `String`
@@ -159,14 +187,14 @@ Type: `String`
 Default: `null`
 
 Control who can view job details. Available visibility levels are documented on
-the [SauceLabs website](https://docs.saucelabs.com/reference/test-configuration/#job-visibility).
+the [SauceLabs website](https://wiki.saucelabs.com/display/DOCS/Test+Configuration+Options#TestConfigurationOptions-JobVisibility).
 
 ### customData
 Type: `Object`
 Default: `{}`
 
 Send arbitrary data alongside your tests. See
-the [SauceLabs documentation](https://docs.saucelabs.com/reference/test-configuration/#recording-custom-data)
+the [SauceLabs documentation](https://wiki.saucelabs.com/display/DOCS/Test+Configuration+Options#TestConfigurationOptions-CustomData)
 for more details.
 
 
